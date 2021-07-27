@@ -34,23 +34,25 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Обработка выбора пункта меню приложения (активити)
         int id = item.getItemId();
 
-        switch(id){
-            case R.id.settings:
-                //TODO
-                return true;
-            case R.id.menu_add:
-                //TODO
-                return true;
-            case R.id.menu_delete:
-                //TODO
-                return true;
-            case android.R.id.home:
-                getSupportFragmentManager().popBackStack();
-                return true;
+        if(id == R.id.settings) {
+            //TODO
+            return true;
         }
+        if(id == R.id.menu_add)  {
+            //TODO
+            return true;
+        }
+        if(id == R.id.menu_delete) {
+            //TODO
+            return true;
+        }
+//        if(id == R.id.menu_back)  {
+//            getSupportFragmentManager().popBackStack();
+//            return true;
+//        }
+
         return super.onOptionsItemSelected(item);
     }
 

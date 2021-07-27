@@ -57,25 +57,38 @@ public class NoteTextFragment extends Fragment {
         }
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_note_text, container, false);
+
         textViewNoteName = view.findViewById(R.id.textViewForName);
         textViewNoteDate = view.findViewById(R.id.textViewForDate);
         textViewNoteDescription = view.findViewById(R.id.textViewForDesc);
 
         isLand = getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE;
-
-        if (!isLand) {
-            ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
-            actionBar.setDisplayHomeAsUpEnabled(true);
-            actionBar.setHomeButtonEnabled(true);
-        }
+        setHasOptionsMenu(true);
 
         return view;
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+     //   if (!isLand) { // при повторном повороте экрана на портрет создается еще одна кнопка :(
+            inflater.inflate(R.menu.fragment_menu, menu);
+
+      //  }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+
+        if (item.getItemId() == R.id.menu_back) {
+               requireActivity().getSupportFragmentManager().popBackStack();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
 
