@@ -1,16 +1,26 @@
 package com.example.note;
 
+import android.content.res.Configuration;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toolbar;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 public class NoteTextFragment extends Fragment {
+    private boolean isLand = false;
 
     private static final String ARG_NAME = "name";
     private static final String ARG_DATE = "date";
@@ -47,15 +57,27 @@ public class NoteTextFragment extends Fragment {
         }
     }
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         View view = inflater.inflate(R.layout.fragment_note_text, container, false);
         textViewNoteName = view.findViewById(R.id.textViewForName);
         textViewNoteDate = view.findViewById(R.id.textViewForDate);
         textViewNoteDescription = view.findViewById(R.id.textViewForDesc);
+
+        isLand = getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE;
+
+        if (!isLand) {
+            ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setHomeButtonEnabled(true);
+        }
+
         return view;
     }
+
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {

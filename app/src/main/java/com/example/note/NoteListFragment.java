@@ -84,6 +84,7 @@ public class NoteListFragment extends Fragment {
         requireActivity().getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.fragmentContainerNoteList, noteFragment)
+                .addToBackStack("NoteTextFragment")
                 .commit();
     }
 }
