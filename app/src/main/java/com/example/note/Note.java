@@ -1,9 +1,9 @@
 package com.example.note;
 
 public class Note {
-    private String name;
-    private String date;
-    private String description;
+    private final String name;
+    private final String date;
+    private final String description;
 
     public Note(String name, String date, String description) {
         this.name = name;
