@@ -28,7 +28,6 @@ public class NoteTextFragment extends Fragment {
 
     Note note;
     private TextView textViewNoteName;
-    private TextView textViewNoteDate;
     private TextView textViewNoteDescription;
 
     public NoteTextFragment() {
@@ -64,7 +63,6 @@ public class NoteTextFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_note_text, container, false);
 
         textViewNoteName = view.findViewById(R.id.textViewForName);
-        textViewNoteDate = view.findViewById(R.id.textViewForDate);
         textViewNoteDescription = view.findViewById(R.id.textViewForDesc);
 
         isLand = getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE;
@@ -100,7 +98,6 @@ public class NoteTextFragment extends Fragment {
 
     private void updateText() {
         textViewNoteName.setText(note.getName());
-        textViewNoteDate.setText(note.getDate());
         textViewNoteDescription.setText(note.getDescription());
     }
 }

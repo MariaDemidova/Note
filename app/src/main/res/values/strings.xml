@@ -1,3 +1,52 @@
 <resources>
     <string name="app_name">Note</string>
+    <string name="name1">Заметка 1</string>
+    <string name="name2">Заметка 2</string>
+    <string name="name3">Заметка 3</string>
+    <string name="name4">Заметка 4</string>
+    <string name="name5">Заметка 5</string>
+    <string name="name6">Заметка 6</string>
+    <string name="name7">Заметка 7</string>
+    <string name="name8">Заметка 8</string>
+    <string name="name9">Заметка 9</string>
+    <string name="name10">Заметка 10</string>
+    <string name="name11">Заметка 11</string>
+    <string name="name12">Заметка 12</string>
+    <string name="name13">Заметка 112ц33</string>
+    <string name="name14">Заметка 112й33</string>
+    <string name="name15">Заметка 113й3</string>
+    <string name="name16">Заметка 11233</string>
+    <string name="name17">Заметка 11й233</string>
+    <string name="date1">21.09.2021</string>
+    <string name="date2">22.09.2021</string>
+    <string name="date3">23.09.2021</string>
+    <string name="date4">24.09.2021</string>
+    <string name="date5">25.09.2021</string>
+    <string name="date6">26.09.2021</string>
+    <string name="date7">27.09.2021</string>
+    <string name="date8">27.09.2021</string>
+    <string name="date9">27.09.2021</string>
+    <string name="date10">27.09.2021</string>
+    <string name="date11">27.09.2021</string>
+    <string name="date12">27.09.2021</string>
+    <string name="date13">27.09.2021</string>
+    <string name="date14">27.09.2021</string>
+    <string name="date15">27.09.2021</string>
+    <string name="date16">27.09.2021</string>
+    <string name="date17">27.09.2021</string>
+
+    <string name="description1">Текс первой заметки</string>
+    <string name="description2">Текс второй заметки</string>
+    <string name="description3">Купить хлеб</string>
+    <string name="description4">Пароль от сбербанка онлайн:qwerty</string>
+    <string name="description5">Оля дура</string>
+    <string name="description6">Текст шестой заметки</string>
+    <string name="description7">Купить слона</string>
+    <string name="description8">Купить слона</string>
+    <string name="description9">Купить слона</string>
+    <string name="description10">Купить слона</string>
+    <string name="description11">Купить слона</string>
+    <string name="description12">Купить слона</string>
+    <string name="description13">Купить слона</string>
+
 </resources>

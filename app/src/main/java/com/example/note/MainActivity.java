@@ -8,6 +8,7 @@ import android.view.MenuItem;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.FragmentManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -15,6 +16,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         setContentView(R.layout.activity_main);
         super.onCreate(savedInstanceState);
+
         initView();
 
         getSupportFragmentManager()
@@ -48,10 +50,6 @@ public class MainActivity extends AppCompatActivity {
             //TODO
             return true;
         }
-//        if(id == R.id.menu_back)  {
-//            getSupportFragmentManager().popBackStack();
-//            return true;
-//        }
 
         return super.onOptionsItemSelected(item);
     }

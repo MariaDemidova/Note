@@ -2,6 +2,7 @@ package com.example.note;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,12 +12,15 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class NoteListFragment extends Fragment {
-    private ArrayList<Note> notes;
-
+    NoteSource noteSource;
+    NotesAdapter adapter;
     private boolean isLand = false;
 
     public static NoteListFragment newInstance() {
@@ -26,7 +30,6 @@ public class NoteListFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // setReenterTransition(true);
     }
 
     @Override
@@ -42,49 +45,53 @@ public class NoteListFragment extends Fragment {
         initView(view);
     }
 
-    private void initView(View view) {
-        LinearLayout linearLayout = (LinearLayout) view;
-        createNote();
-        for (int i = 0; i < notes.size(); i++) {
-            TextView textView = new TextView(getContext());
-            textView.setText(notes.get(i).getName());
-            textView.setTextSize(25);
-            linearLayout.addView(textView);
+    private void initView(View view ) {
 
-            final int finalI = i;
-            textView.setOnClickListener(v -> showNote(notes.get(finalI)));
-        }
+        RecyclerView recyclerView = view.findViewById(R.id.recycle_view);
+
+        noteSource = new NoteSourceImpl(getContext());
+        adapter = new NotesAdapter();
+        adapter.setList(noteSource);
+
+        recyclerView.setAdapter(adapter);
+
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        recyclerView.setHasFixedSize(true);
+
+        adapter.setListener(this::showNote);
+
+//        showNote(0);
+        Log.d("sdfdsg", String.valueOf(noteSource.size()));
+        Log.d("sdfdsg", String.valueOf(adapter.getItemCount()));
+
     }
 
-    private void showNote(Note note) {
+    private void showNote(int position) {
         if (isLand) {
-            showNoteLand(note);
+            //  showNote(0);
+            showNoteLand(position);
         } else {
-            showNotePort(note);
+            showNotePort(position);
         }
     }
 
-    public void createNote() {
-        notes = new ArrayList<>();
-        notes.add(new Note("Первая", "12.04.2021", "Тут текст первой заметки"));
-        notes.add(new Note("Вторая", "13.04.2021", "Во второй заметке текст интереснее"));
-        notes.add(new Note("Третья", "14.04.2021", "Третья заметка так себе"));
-    }
-
-    void showNoteLand(Note note) {
-        Fragment noteFragment = NoteTextFragment.newInstance(note);
-        requireActivity().getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.landscapeContainer, noteFragment)
-                .commit();
-    }
-
-    void showNotePort(Note note) {
-        Fragment noteFragment = NoteTextFragment.newInstance(note);
+    void showNotePort(int position) {
+        Fragment noteFragment = NoteTextFragment.newInstance(noteSource.getNote(position));
         requireActivity().getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.fragmentContainerNoteList, noteFragment)
                 .addToBackStack("NoteTextFragment")
                 .commit();
     }
+
+    void showNoteLand(int position) {
+        Fragment noteFragment = NoteTextFragment.newInstance(noteSource.getNote(position));
+        requireActivity().getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.landscapeContainer, noteFragment)
+                .addToBackStack("NoteTextFragment")
+                .commit();
+    }
+
 }
