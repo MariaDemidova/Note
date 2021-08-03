@@ -8,18 +8,28 @@ import android.widget.CheckBox;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
+
+import java.text.SimpleDateFormat;
 
 public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NotesViewHolder> {
 
     private NoteSource dataSource;
     public static final String TAG = "NoteAdapter";
     private OnItemClickListener clickListener;
+    private final Fragment fragment;
+    private int menuPosition;
 
-    public NotesAdapter() {
+    public int getMenuPosition() {
+        return menuPosition;
     }
 
-    public void setList (NoteSource dataSource) {
+    public NotesAdapter(Fragment fragment) {
+        this.fragment = fragment;
+    }
+
+    public void setList(NoteSource dataSource) {
         this.dataSource = dataSource;
         notifyDataSetChanged();
     }
@@ -51,32 +61,42 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NotesViewHol
     public class NotesViewHolder extends RecyclerView.ViewHolder {
         private final TextView name;
         private final TextView date;
-       // private final TextView description;
         private final CheckBox checkBox;
 
-        TextView textView;
         public NotesViewHolder(@NonNull View itemView) {
             super(itemView);
 
             name = itemView.findViewById(R.id.item_name);
             date = itemView.findViewById(R.id.item_date);
-           // description = itemView.findViewById(R.id.descField);
             checkBox = itemView.findViewById(R.id.checkBox);
+
+            registerContextMenu(itemView);
 
             itemView.setOnClickListener(v -> {
                 clickListener.onItemClick(getAdapterPosition());
+                menuPosition = getLayoutPosition();
             });
+        }
+
+        private void registerContextMenu(@NonNull View itemView) {
+            if (fragment != null) {
+                itemView.setOnLongClickListener(v -> {
+                    menuPosition = getLayoutPosition();
+                    return false;
+                });
+
+                fragment.registerForContextMenu(itemView);
+            }
         }
 
         public void bind(@NonNull Note note) {
             name.setText(note.getName());
-            date.setText(note.getDate());
-       //     description.setText(note.getDescription());
-
+            date.setText(note.getDate().toString());
+            date.setText(new SimpleDateFormat("dd-MM-yy").format(note.getDate()));
         }
     }
 
-    interface OnItemClickListener{
+    interface OnItemClickListener {
         void onItemClick(int position);
     }
 }
