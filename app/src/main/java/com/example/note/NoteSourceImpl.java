@@ -1,94 +1,117 @@
 package com.example.note;
 
 import android.content.Context;
+import android.content.res.Resources;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.List;
 
 public class NoteSourceImpl implements NoteSource {
 
-    private final Context context;
-    private Note[] notes;
+    private List<Note> notes;
 
     public NoteSourceImpl(Context context) {
-        this.context = context;
 
-        notes = new Note[]{
+        notes = new ArrayList<>(Arrays.asList(
                 new Note(context.getResources().getString(R.string.name1),
-                        context.getResources().getString(R.string.date1),
+                        Calendar.getInstance().getTime(),
                         context.getResources().getString(R.string.description1)
                 ),
                 new Note(context.getResources().getString(R.string.name2),
-                        context.getResources().getString(R.string.date2),
+                        Calendar.getInstance().getTime(),
                         context.getResources().getString(R.string.description2)
                 ),
                 new Note(context.getResources().getString(R.string.name3),
-                        context.getResources().getString(R.string.date3),
+                        Calendar.getInstance().getTime(),
                         context.getResources().getString(R.string.description3)
                 ),
                 new Note(context.getResources().getString(R.string.name4),
-                        context.getResources().getString(R.string.date4),
+                        Calendar.getInstance().getTime(),
                         context.getResources().getString(R.string.description4)
                 ),
                 new Note(context.getResources().getString(R.string.name5),
-                        context.getResources().getString(R.string.date5),
+                        Calendar.getInstance().getTime(),
                         context.getResources().getString(R.string.description5)
                 ),
                 new Note(context.getResources().getString(R.string.name6),
-                        context.getResources().getString(R.string.date6),
+                        Calendar.getInstance().getTime(),
                         context.getResources().getString(R.string.description6)
                 ),
                 new Note(context.getResources().getString(R.string.name7),
-                        context.getResources().getString(R.string.date7),
+                        Calendar.getInstance().getTime(),
                         context.getResources().getString(R.string.description7)
                 ),
                 new Note(context.getResources().getString(R.string.name8),
-                        context.getResources().getString(R.string.date8),
+                        Calendar.getInstance().getTime(),
                         context.getResources().getString(R.string.description8)
                 ),
                 new Note(context.getResources().getString(R.string.name9),
-                        context.getResources().getString(R.string.date9),
+                        Calendar.getInstance().getTime(),
                         context.getResources().getString(R.string.description9)
                 ),
                 new Note(context.getResources().getString(R.string.name10),
-                        context.getResources().getString(R.string.date10),
+                        Calendar.getInstance().getTime(),
                         context.getResources().getString(R.string.description10)
                 ),
                 new Note(context.getResources().getString(R.string.name11),
-                        context.getResources().getString(R.string.date11),
+                        Calendar.getInstance().getTime(),
                         context.getResources().getString(R.string.description11)
                 ),
                 new Note(context.getResources().getString(R.string.name12),
-                        context.getResources().getString(R.string.date12),
+                        Calendar.getInstance().getTime(),
                         context.getResources().getString(R.string.description12)
                 ),
                 new Note(context.getResources().getString(R.string.name13),
-                        context.getResources().getString(R.string.date13),
+                        Calendar.getInstance().getTime(),
                         context.getResources().getString(R.string.description13)
                 ),
                 new Note(context.getResources().getString(R.string.name14),
-                        context.getResources().getString(R.string.date14),
+                        Calendar.getInstance().getTime(),
                         context.getResources().getString(R.string.description12)
                 ),
                 new Note(context.getResources().getString(R.string.name15),
-                        context.getResources().getString(R.string.date15),
+                        Calendar.getInstance().getTime(),
                         context.getResources().getString(R.string.description12)
                 ),
                 new Note(context.getResources().getString(R.string.name16),
-                        context.getResources().getString(R.string.date16),
+                        Calendar.getInstance().getTime(),
                         context.getResources().getString(R.string.description12)
                 ),
                 new Note(context.getResources().getString(R.string.name17),
-                        context.getResources().getString(R.string.date17),
+                        Calendar.getInstance().getTime(),
                         context.getResources().getString(R.string.description12)
-                ),
-        };
+                )));
     }
 
     @Override
     public Note getNote(int position) {
-        return notes[position];
+        return notes.get(position);
     }
 
     @Override
     public int size() {
-        return notes.length;
+        return notes.size();
+    }
+
+    @Override
+    public void deleteCardData(int position) {
+        notes.remove(position);
+    }
+
+    @Override
+    public void addCardData(Note note) {
+        notes.add(note);
+    }
+
+    @Override
+    public void updateCardData(int position, Note note) {
+        notes.set(position, note);
+    }
+
+    @Override
+    public void clearCardData() {
+        notes.clear();
     }
 }
