@@ -29,6 +29,11 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NotesViewHol
         this.fragment = fragment;
     }
 
+    public void setDataSource(NoteSource dataSource){
+        this.dataSource = dataSource;
+        notifyDataSetChanged();
+    }
+
     public void setList(NoteSource dataSource) {
         this.dataSource = dataSource;
         notifyDataSetChanged();
