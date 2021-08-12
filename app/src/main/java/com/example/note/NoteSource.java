@@ -1,8 +1,8 @@
 package com.example.note;
 
-import java.util.List;
-
 public interface NoteSource {
+    NoteSource init(NotesSourceResponse notesSourceResponse);
+
     Note getNote(int position);
 
     int size();

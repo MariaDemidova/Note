@@ -32,17 +32,11 @@ public class NoteListFragment extends Fragment {
 
     private Navigation navigation;
     private Publisher publisher;
-    private boolean moveToLastPosition;
+    private boolean moveToFirstPosition;
 
     public static NoteListFragment newInstance(NoteSource noteSource) {
         NoteListFragment.noteSource = noteSource;
         return new NoteListFragment();
-    }
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        noteSource = new NoteSourceImpl(getContext());
     }
 
     @Override
@@ -52,6 +46,9 @@ public class NoteListFragment extends Fragment {
         recyclerView = view.findViewById(R.id.recycle_view);
         setHasOptionsMenu(true);
         initView(view);
+
+        noteSource = new NoteSourceFirebaseImpl().init(NoteSource -> adapter.notifyDataSetChanged());
+        adapter.setDataSource(noteSource);
 
         return view;
     }
@@ -86,21 +83,7 @@ public class NoteListFragment extends Fragment {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
-        if (item.getItemId() == R.id.menu_add) {
-            navigation.addFragment(NoteFragment.newInstance(), true);
-            publisher.subscribe(note -> {
-                noteSource.addCardData(note);
-                adapter.notifyItemInserted(noteSource.size() - 1);
-                moveToLastPosition = true;
-            });
-            return true;
-        }
-        if (item.getItemId() == R.id.menu_clear) {
-            noteSource.clearCardData();
-            adapter.notifyDataSetChanged();
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
+        return onItemSelected(item.getItemId()) || super.onOptionsItemSelected(item);
     }
 
     private void initView(View view) {
@@ -119,11 +102,10 @@ public class NoteListFragment extends Fragment {
         recyclerView.setAdapter(adapter);
         adapter.setListener(this::showNote);
 
-        if (moveToLastPosition) {
-            recyclerView.smoothScrollToPosition(noteSource.size() - 1);
-            moveToLastPosition = false;
+        if (moveToFirstPosition && noteSource.size() > 0) {
+            recyclerView.scrollToPosition(0);
+            moveToFirstPosition = false;
         }
-
     }
 
     private void showNote(int position) {
@@ -161,21 +143,40 @@ public class NoteListFragment extends Fragment {
 
     @Override
     public boolean onContextItemSelected(@NonNull MenuItem item) {
-        int position = adapter.getMenuPosition();
-        if (item.getItemId() == R.id.update) {
-            navigation.addFragment(NoteFragment.newInstance(noteSource.getNote(position)), true);
+        return onItemSelected(item.getItemId()) || super.onContextItemSelected(item);
+    }
+
+    private boolean onItemSelected(int menuItemId) {
+        if (menuItemId == R.id.menu_add) {
+            navigation.addFragment(NoteFragment.newInstance(), true);
             publisher.subscribe(note -> {
-                noteSource.updateCardData(position, note);
-                adapter.notifyItemChanged(position);
+                noteSource.addCardData(note);
+                adapter.notifyItemInserted(noteSource.size() - 1);
+                moveToFirstPosition = true;
             });
             return true;
         }
-        if (item.getItemId() == R.id.delete) {
-            noteSource.deleteCardData(position);
-            adapter.notifyItemRemoved(position);
-
+        if (menuItemId == R.id.update) {
+            final int updatePosition = adapter.getMenuPosition();
+            navigation.addFragment(NoteFragment.newInstance(noteSource.getNote(updatePosition)), true);
+            publisher.subscribe(note -> {
+                noteSource.updateCardData(updatePosition, note);
+                adapter.notifyItemChanged(updatePosition);
+            });
             return true;
         }
-        return super.onContextItemSelected(item);
+        if (menuItemId == R.id.delete) {
+            int deletePosition = adapter.getMenuPosition();
+            noteSource.deleteCardData(deletePosition);
+            adapter.notifyItemRemoved(deletePosition);
+            return true;
+        }
+        if (menuItemId == R.id.menu_clear) {
+            noteSource.clearCardData();
+            adapter.notifyDataSetChanged();
+            return true;
+        }
+        return false;
     }
+
 }

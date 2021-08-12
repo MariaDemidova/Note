@@ -23,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         setContentView(R.layout.activity_main);
         super.onCreate(savedInstanceState);
-        noteSource = new NoteSourceImpl(this);
+        noteSource = new NoteSourceFirebaseImpl();
         navigation = new Navigation(getSupportFragmentManager());
 
         getNavigation().addFragment(NoteFragment.newInstance(), false);
@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
                 .beginTransaction()
                 .replace(R.id.fragmentContainerNoteList, NoteListFragment.newInstance(noteSource))
                 .commit();
- }
+    }
 
     private void initView() {
         initToolbar();
@@ -44,8 +44,8 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
-
     }
+
     @Override
     public boolean onSupportNavigateUp() {
         onBackPressed();

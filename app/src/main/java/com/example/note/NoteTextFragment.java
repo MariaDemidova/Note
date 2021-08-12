@@ -14,6 +14,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 
 import java.util.Calendar;
+import java.util.UUID;
 
 public class NoteTextFragment extends Fragment {
     private boolean isLand = false;
@@ -65,13 +66,11 @@ public class NoteTextFragment extends Fragment {
 
         isLand = getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE;
 
-
         add_note_name = view.findViewById(R.id.edit_Text_For_Name);
         add_note_desc = view.findViewById(R.id.edit_text_ForDesc);
 
         return view;
     }
-
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {

@@ -3,21 +3,26 @@ package com.example.note;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.google.firebase.firestore.Exclude;
+
 import java.util.Date;
 
 public class Note implements Parcelable {
-
+    // @Exclude
+    private String id;
     private String name;
     private Date date;
     private String description;
 
     public Note(String name, Date date, String description) {
+
         this.name = name;
         this.date = date;
         this.description = description;
     }
 
     protected Note(Parcel in) {
+        id = in.readString();
         name = in.readString();
         description = in.readString();
         date = new Date(in.readLong());
@@ -37,6 +42,14 @@ public class Note implements Parcelable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public Note() {
@@ -65,4 +78,5 @@ public class Note implements Parcelable {
             return new Note[size];
         }
     };
+
 }
