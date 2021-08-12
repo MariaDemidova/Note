@@ -35,6 +35,11 @@ public class NoteSourceFirebaseImpl implements NoteSource {
         collection.orderBy(NoteMapping.Fields.DATE, Query.Direction.DESCENDING).get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
+                        QuerySnapshot result = task.getResult();
+                        if (result == null) {
+                            return;
+                        }
+
                         notes = new ArrayList<>();
                         for (QueryDocumentSnapshot document : task.getResult()) {
                             Map<String, Object> doc = document.getData();
