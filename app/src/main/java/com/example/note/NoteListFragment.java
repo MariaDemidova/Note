@@ -1,6 +1,7 @@
 package com.example.note;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.util.Log;
@@ -13,9 +14,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -166,14 +169,46 @@ public class NoteListFragment extends Fragment {
             return true;
         }
         if (menuItemId == R.id.delete) {
-            int deletePosition = adapter.getMenuPosition();
-            noteSource.deleteCardData(deletePosition);
-            adapter.notifyItemRemoved(deletePosition);
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+            builder.setTitle("ВНИМАНИЕ")
+                    .setMessage("Вы действительно хотите удалить заметку?")
+                    .setIcon(R.mipmap.ic_launcher_round)
+                    .setCancelable(false)
+                    .setNegativeButton("Нет",
+                            (dialog, id) -> {
+                            })
+
+                    .setPositiveButton("Удалить",
+                            (dialog, id) -> {
+                                int deletePosition = adapter.getMenuPosition();
+                                noteSource.deleteCardData(deletePosition);
+                                adapter.notifyItemRemoved(deletePosition);
+                            });
+            AlertDialog alert = builder.create();
+            alert.show();
+
             return true;
         }
         if (menuItemId == R.id.menu_clear) {
-            noteSource.clearCardData();
-            adapter.notifyDataSetChanged();
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+            builder.setTitle("ВНИМАНИЕ")
+                    .setMessage("Вы действительно хотите удалить все заметки?")
+                    .setIcon(R.mipmap.ic_launcher_round)
+                    .setCancelable(false)
+                    .setNegativeButton("Нет",
+                            (dialog, id) -> {
+                            })
+
+                    .setPositiveButton("Удалить",
+                            (dialog, id) -> {
+                                noteSource.clearCardData();
+                                adapter.notifyDataSetChanged();
+                            });
+            AlertDialog alert = builder.create();
+            alert.show();
+
             return true;
         }
         return false;
